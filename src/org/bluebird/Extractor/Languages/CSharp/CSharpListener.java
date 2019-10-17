@@ -31,6 +31,16 @@ public class CSharpListener extends CSharpParserBaseListener {
         }
     }
 
+    private void countLines(ParserRuleContext ctx) {
+        for (Token token : this.tokenStream.getTokens(ctx.getStart().getTokenIndex(), ctx.getStop().getTokenIndex())) {
+            if(token.getChannel() != CSharpLexer.COMMENTS_CHANNEL) {
+                if(!(token.getText().equals("<EOF>"))) {
+                    FileCreator.appendToCodeLineFile(token.getText());
+                }
+            }
+        }
+    }
+
     /**
      * Inicia a extração do arquivo C# e pega todos comentarios do arquivo
      *
@@ -38,6 +48,7 @@ public class CSharpListener extends CSharpParserBaseListener {
      */
     @Override
     public void enterCompilation_unit(CSharpParser.Compilation_unitContext ctx) {
+        countLines(ctx);
         countTokens(ctx);
     }
 }

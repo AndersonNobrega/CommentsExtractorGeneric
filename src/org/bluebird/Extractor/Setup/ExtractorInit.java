@@ -42,7 +42,7 @@ public class ExtractorInit {
 
         MemoryRuntime memoryRuntime = new MemoryRuntime();
 
-        System.out.println("Vocabulary Extractor Running...");
+        System.out.println("Comments Extractor Running...");
 
         for (String language : languageOption) {
             LanguageWalker walker = returnWalkerObject(language);
@@ -60,9 +60,10 @@ public class ExtractorInit {
 
         FileCreator.saveFile(projectName + "_Comments_Tokens", fileToSavePath + "/Tokens/",
                                                     FileCreator.getCommentsTokensFile(), "txt");
-
         FileCreator.saveFile(projectName + "_Code_Tokens", fileToSavePath + "/Tokens/",
-                                                FileCreator.getCodeTokensFile(), "txt");
+                                                    FileCreator.getCodeTokensFile(), "txt");
+        FileCreator.saveFile(projectName + "_Code_Line", fileToSavePath + "/Tokens/",
+                                                    FileCreator.getCodeLineFile(), "txt");
 
         FileCreator.appendToStatsTxtFile("Projeto: " + projectName + "\n" + "Linguagem: " + languageOption[0] + "\n");
         memoryRuntime.calculateAll();

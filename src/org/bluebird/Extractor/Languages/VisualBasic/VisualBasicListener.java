@@ -32,8 +32,20 @@ public class VisualBasicListener extends VisualBasicBaseListener {
         }
     }
 
+    private void countLines(ParserRuleContext ctx) {
+        for (Token token : this.tokenStream.getTokens(ctx.getStart().getTokenIndex(), ctx.getStop().getTokenIndex())) {
+            if(token.getChannel() != COMMENTS_CHANNEL) {
+                if(!(token.getText().equals("<EOF>"))) {
+                    FileCreator.appendToCodeLineFile(token.getText());
+                }
+            }
+        }
+    }
+
+
     @Override
     public void enterStartRule(VisualBasicParser.StartRuleContext ctx) {
+        countLines(ctx);
         countTokens(ctx);
     }
 }

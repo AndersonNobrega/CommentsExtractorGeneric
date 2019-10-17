@@ -7,6 +7,13 @@ public class FileCreator {
     private static StringBuffer codeTokensFile = new StringBuffer();
     private static StringBuffer commentsTokensFile = new StringBuffer();
     private static StringBuffer statsTxtFile = new StringBuffer();
+    private static StringBuffer codeLineFile = new StringBuffer();
+
+
+    public static StringBuffer getCodeLineFile() {
+        return FileCreator.codeLineFile;
+    }
+
 
     /**
      * Retorna as metricas do projeto
@@ -71,6 +78,10 @@ public class FileCreator {
         } catch (IOException e) {
             System.out.println("Problemas com leitura do arquivo");
         }
+    }
+
+    public static void appendToCodeLineFile(String content) {
+        FileCreator.codeLineFile.append(content);
     }
 
     /**

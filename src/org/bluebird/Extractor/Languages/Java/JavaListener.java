@@ -28,12 +28,24 @@ public class JavaListener extends JavaParserBaseListener {
         }
     }
 
+    private void countLines(ParserRuleContext ctx) {
+        for (Token token : this.tokenStream.getTokens(ctx.getStart().getTokenIndex(), ctx.getStop().getTokenIndex())) {
+            if(token.getChannel() != JavaLexer.COMMENTS_CHANNEL) {
+                if(!(token.getText().equals("<EOF>"))) {
+                    FileCreator.appendToCodeLineFile(token.getText());
+                }
+            }
+        }
+    }
+
+
     /**
      * Inicia a extração do arquivo Java e pega todos comentarios do arquivo
      *
      * @param ctx Entidade da Parser Tree
      */
     public void enterCompilationUnit(JavaParser.CompilationUnitContext ctx) {
+        countLines(ctx);
         countTokens(ctx);
     }
 }

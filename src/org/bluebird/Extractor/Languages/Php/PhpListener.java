@@ -31,9 +31,21 @@ public class PhpListener extends PhpParserBaseListener {
         }
     }
 
+    private void countLines(ParserRuleContext ctx) {
+        for (Token token : this.tokenStream.getTokens(ctx.getStart().getTokenIndex(), ctx.getStop().getTokenIndex())) {
+            if(token.getChannel() != PhpLexer.PhpComments) {
+                if(!(token.getText().equals("<EOF>"))) {
+                    FileCreator.appendToCodeLineFile(token.getText());
+                }
+            }
+        }
+    }
+
+
     @Override
     public void enterHtmlDocument(PhpParser.HtmlDocumentContext ctx) {
         try {
+            countLines(ctx);
             countTokens(ctx);
         } catch (NullPointerException e) {
 

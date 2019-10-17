@@ -31,6 +31,17 @@ public class JavaScriptListener extends JavaScriptParserBaseListener {
         }
     }
 
+    private void countLines(ParserRuleContext ctx) {
+        for (Token token : this.tokenStream.getTokens(ctx.getStart().getTokenIndex(), ctx.getStop().getTokenIndex())) {
+            if(token.getChannel() != JavaScriptLexer.COMMENTS_CHANNEL) {
+                if(!(token.getText().equals("<EOF>"))) {
+                    FileCreator.appendToCodeLineFile(token.getText());
+                }
+            }
+        }
+    }
+
+
     /**
      * Inicia a extração do arquivo JS e pega todos comentarios do arquivo
      *
@@ -38,6 +49,7 @@ public class JavaScriptListener extends JavaScriptParserBaseListener {
      */
     @Override
     public void enterProgram(JavaScriptParser.ProgramContext ctx) {
+        countLines(ctx);
         countTokens(ctx);
     }
 }
